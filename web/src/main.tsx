@@ -1,10 +1,31 @@
 import React from "react";
 import ReactDOM from "react-dom/client";
-import App from "./App.tsx";
+
 import "./index.css";
 
+import { ErrorPage, SignUp } from "./routes";
+import { createBrowserRouter, RouterProvider } from "react-router-dom";
+const router = createBrowserRouter(
+  [
+    {
+      path: "/",
+      element: <SignUp />,
+      errorElement: <ErrorPage />,
+    },
+  ],
+  {
+    future: {
+      v7_partialHydration: true,
+    },
+  }
+);
 ReactDOM.createRoot(document.getElementById("root")!).render(
   <React.StrictMode>
-    <App />
+    <RouterProvider
+      router={router}
+      future={{
+        v7_startTransition: true,
+      }}
+    />
   </React.StrictMode>
 );
