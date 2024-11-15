@@ -1,3 +1,4 @@
 import SignUp from "./SignUp";
 import ErrorPage from "./ErrorPage";
-export { SignUp, ErrorPage };
+import Confirmation from "./Confirmation";
+export { SignUp, ErrorPage, Confirmation };

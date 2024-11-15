@@ -3,29 +3,23 @@ import ReactDOM from "react-dom/client";
 
 import "./index.css";
 
-import { ErrorPage, SignUp } from "./routes";
+import { ErrorPage, SignUp, Confirmation } from "./routes";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
-const router = createBrowserRouter(
-  [
-    {
-      path: "/",
-      element: <SignUp />,
-      errorElement: <ErrorPage />,
-    },
-  ],
+
+const router = createBrowserRouter([
   {
-    future: {
-      v7_partialHydration: true,
-    },
-  }
-);
+    path: "/",
+    element: <SignUp />,
+    errorElement: <ErrorPage />,
+  },
+  {
+    path: "/confirm-email-sent", // New route for confirmation page
+    element: <Confirmation />, // A separate component for the confirmation page
+    errorElement: <ErrorPage />, // Handle errors for this route
+  },
+]);
 ReactDOM.createRoot(document.getElementById("root")!).render(
   <React.StrictMode>
-    <RouterProvider
-      router={router}
-      future={{
-        v7_startTransition: true,
-      }}
-    />
+    <RouterProvider router={router} />
   </React.StrictMode>
 );
