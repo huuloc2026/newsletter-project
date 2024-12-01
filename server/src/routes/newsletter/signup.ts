@@ -1,11 +1,12 @@
 import { Request, Response } from "express";
 import { isEmailValid } from "../../utils/ValidEmail";
+import { upsertSubscriber } from "src/services/newsletter/newsletterService";
 
 interface SignUpPayload {
   email: string;
 }
 
-export const SignUpHandle = (req: Request, res: Response) => {
+export const SignUpHandle = () => async (req: Request, res: Response) => {
   try {
     const { email } = req.body as SignUpPayload;
     if (!email) {
@@ -15,10 +16,10 @@ export const SignUpHandle = (req: Request, res: Response) => {
       throw new Error("Email is not valid");
     }
     console.log(email);
-    // return res.status(201).json({
-    //   message: "Ok",
-    // });
-    return res.status(200).json({ message: "Successful SignUp" });
+    console.log("SignUpHandler:: Sign Up Successful");
+
+    const newsletterSubscriber = await upsertSubscriber(prisma, email);
+    return res.status(201).json(newsletterSubscriber);
   } catch (error) {
     throw new Error("Some thing wrong");
   }
