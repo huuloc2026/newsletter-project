@@ -6,7 +6,7 @@ const PORT = process.env.PORT || 8080;
 const prisma = new PrismaClient();
 
 const server = createServer({ prisma }).listen(PORT, () => {
-  console.log(`🚀 Server ready at: http://localhost:${PORT}`);
+  console.log(`🚀 🚀 Server ready at: http://localhost:${PORT}`);
 });
 
 const exitHandler = () => {
