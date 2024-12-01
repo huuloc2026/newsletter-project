@@ -1,20 +1,30 @@
 import express, { Express, Response, Request } from "express";
 import { createNewsletterRouter } from "./routes/newsletter";
+import { PrismaClient } from "@prisma/client";
+
+interface CreateServerParams {
+  prisma: PrismaClient
+}
+
 const cors = require("cors");
 const path = require("path");
-const errorHandler = (error: Error, req: Request, res: Response) => {
-  console.log(error);
+const errorHandler = (
+  error: Error,
+  req: Request,
+  res: Response,
+  next: Function
+) => {
+  console.error(error);
 
   res.status(500).json({
     status: false,
     message: error.message || "Internal Server Error",
   });
 };
-
 // the server singleton
 let server: Express | null = null;
 
-export const createServer = (): Express => {
+export const createServer = ({ prisma }: CreateServerParams): Express => {
   if (server) return server;
 
   server = express();
@@ -25,16 +35,19 @@ export const createServer = (): Express => {
   server.use(express.urlencoded({ extended: true }));
   server.use(
     cors({
-      origin: "http://localhost:3001", // Allow only your frontend origin
-      methods: ["GET", "POST"], // Specify allowed HTTP methods
-      allowedHeaders: ["Content-Type"], // Specify allowed headers
+      origin: "http://localhost:3001",
+      methods: ["GET", "POST"],
+      allowedHeaders: ["Content-Type"],
     })
   );
 
-  server.use("/v1", createNewsletterRouter());
+  server.use("/v1", createNewsletterRouter(prisma));
 
   server.use((req, res, next) => {
-    next(new Error("Not found"));
+    res.status(404).json({
+      status: false,
+      message: "Route not found",
+    });
   });
 
   server.use(errorHandler);

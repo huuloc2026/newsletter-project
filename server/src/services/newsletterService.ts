@@ -1,5 +1,6 @@
 import { PrismaClient } from "@prisma/client";
-import { RandomToken } from "../../utils/RandomToken";
+import { RandomToken } from "../utils/RandomToken";
+
 
 export const upsertSubscriber = async (prisma: PrismaClient, email: string) => {
   try {
@@ -21,7 +22,7 @@ export const upsertSubscriber = async (prisma: PrismaClient, email: string) => {
     });
     return newsSubscriber;
   } catch (error) {
-    console.error("Error upserting subscriber:", error); // Log the error for debugging
-    throw new Error(`Failed to upsert subscriber with email: ${email}`); // Throw a meaningful error
+    console.error("Error upserting subscriber:", error);
+    throw new Error(`Failed to upsert subscriber with email: ${email}`);
   }
 };

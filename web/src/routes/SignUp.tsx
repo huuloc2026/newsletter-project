@@ -28,7 +28,7 @@ const SignUp = () => {
       });
 
       const payload = (await response.json()) as SignUpSuccessPayload;
-      console.log(payload); // Check the payload structure
+      console.log(payload);
 
       const isOkResquest = response.status === 200 || response.status === 201;
       if (!isOkResquest) {

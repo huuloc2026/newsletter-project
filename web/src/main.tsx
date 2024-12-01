@@ -13,9 +13,9 @@ const router = createBrowserRouter([
     errorElement: <ErrorPage />,
   },
   {
-    path: "/confirm-email-sent", // New route for confirmation page
-    element: <Confirmation />, // A separate component for the confirmation page
-    errorElement: <ErrorPage />, // Handle errors for this route
+    path: "/confirm-email-sent", 
+    element: <Confirmation />, 
+    errorElement: <ErrorPage />, 
   },
 ]);
 ReactDOM.createRoot(document.getElementById("root")!).render(
