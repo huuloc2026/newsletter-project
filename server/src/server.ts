@@ -1,9 +1,11 @@
 import express, { Express, Response, Request } from "express";
 import { createNewsletterRouter } from "./routes/newsletter";
 import { PrismaClient } from "@prisma/client";
+import { PubSubService } from "./services/pubsub/types";
 
 interface CreateServerParams {
   prisma: PrismaClient
+  pubsub: PubSubService
 }
 
 const cors = require("cors");
@@ -24,7 +26,7 @@ const errorHandler = (
 // the server singleton
 let server: Express | null = null;
 
-export const createServer = ({ prisma }: CreateServerParams): Express => {
+export const createServer = ({ prisma, pubsub }: CreateServerParams): Express => {
   if (server) return server;
 
   server = express();
@@ -41,7 +43,7 @@ export const createServer = ({ prisma }: CreateServerParams): Express => {
     })
   );
 
-  server.use("/v1", createNewsletterRouter(prisma));
+  server.use("/v1", createNewsletterRouter(prisma, pubsub));
 
   server.use((req, res, next) => {
     res.status(404).json({
